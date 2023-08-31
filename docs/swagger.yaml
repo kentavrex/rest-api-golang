@@ -1,0 +1,298 @@
+basePath: /
+host: localhost:8001
+info:
+  contact: {}
+  description: API Server for Segments Application
+  title: Rest api Golang Avito App API
+  version: "1.0"
+paths:
+  /segments:
+    get:
+      consumes:
+      - application/json
+      description: fetch all segments data
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: find segments
+      tags:
+      - segments
+    post:
+      consumes:
+      - application/json
+      description: create segment entry
+      parameters:
+      - description: Segment slug
+        in: body
+        name: slug
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+      summary: create segment
+      tags:
+      - segments
+  /segments/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete segment entry by id
+      parameters:
+      - description: Segment ID
+        in: path
+        name: segment_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+      summary: delete segment
+      tags:
+      - segments
+    get:
+      consumes:
+      - application/json
+      description: find segment entry by id
+      parameters:
+      - description: Segment ID
+        in: path
+        name: segment_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: find segment
+      tags:
+      - segments
+    put:
+      consumes:
+      - application/json
+      description: update segment entry by id
+      parameters:
+      - description: Segment ID
+        in: path
+        name: segment_id
+        required: true
+        type: integer
+      - description: Segment slug
+        in: body
+        name: slug
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: update segment
+      tags:
+      - segments
+  /user_segments:
+    get:
+      consumes:
+      - application/json
+      description: fetch all user_segment data
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: find segments
+      tags:
+      - user_segments
+    post:
+      consumes:
+      - application/json
+      description: create segment entry
+      parameters:
+      - description: User id
+        in: body
+        name: user_id
+        required: true
+        schema:
+          type: integer
+      - description: Segment id
+        in: body
+        name: segment_id
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+      summary: create segment
+      tags:
+      - user_segments
+  /user_segments/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete segment entry by id
+      parameters:
+      - description: UserSegment ID
+        in: path
+        name: user_segment_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+      summary: delete segment
+      tags:
+      - user_segments
+    get:
+      consumes:
+      - application/json
+      description: find user_segment entry by id
+      parameters:
+      - description: UserSegment ID
+        in: path
+        name: user_segment_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: find user_segment
+      tags:
+      - user_segments
+    put:
+      consumes:
+      - application/json
+      description: update user_segment entry by id
+      parameters:
+      - description: User id
+        in: body
+        name: user_segment_id
+        required: true
+        schema:
+          type: integer
+      - description: User id
+        in: body
+        name: user_id
+        required: true
+        schema:
+          type: integer
+      - description: Segment id
+        in: body
+        name: segment_id
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: update user user_segment
+      tags:
+      - user_segments
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: fetch all users data
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: find users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: create user entry
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+      summary: create user
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete user entry by id
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+      summary: delete user
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: find user entry by id
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: find user
+      tags:
+      - users
+swagger: "2.0"
