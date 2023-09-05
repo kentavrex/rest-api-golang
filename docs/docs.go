@@ -17,7 +17,7 @@ const docTemplate = `{
     "paths": {
         "/segments": {
             "get": {
-                "description": "fetch all segments data",
+                "description": "get all segments",
                 "consumes": [
                     "application/json"
                 ],
@@ -27,18 +27,43 @@ const docTemplate = `{
                 "tags": [
                     "segments"
                 ],
-                "summary": "find segments",
+                "summary": "Get all segments",
+                "operationId": "get-all-segments",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
                         }
                     }
                 }
             },
             "post": {
-                "description": "create segment entry",
+                "description": "create segments",
                 "consumes": [
                     "application/json"
                 ],
@@ -48,23 +73,48 @@ const docTemplate = `{
                 "tags": [
                     "segments"
                 ],
-                "summary": "create segment",
+                "summary": "Create segment",
+                "operationId": "create-segment",
                 "parameters": [
                     {
-                        "description": "Segment slug",
-                        "name": "slug",
+                        "description": "segment info",
+                        "name": "input",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/app.Segment"
                         }
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
                         }
                     }
                 }
@@ -72,7 +122,7 @@ const docTemplate = `{
         },
         "/segments/{id}": {
             "get": {
-                "description": "find segment entry by id",
+                "description": "get segment by id",
                 "consumes": [
                     "application/json"
                 ],
@@ -82,12 +132,13 @@ const docTemplate = `{
                 "tags": [
                     "segments"
                 ],
-                "summary": "find segment",
+                "summary": "Get segment by id",
+                "operationId": "get-segment-by-id",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Segment ID",
-                        "name": "segment_id",
+                        "type": "string",
+                        "description": "segment id",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -96,13 +147,37 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
                         }
                     }
                 }
             },
             "put": {
-                "description": "update segment entry by id",
+                "description": "update segment",
                 "consumes": [
                     "application/json"
                 ],
@@ -112,36 +187,61 @@ const docTemplate = `{
                 "tags": [
                     "segments"
                 ],
-                "summary": "update segment",
+                "summary": "Update segment",
+                "operationId": "update-segment",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Segment ID",
-                        "name": "segment_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Segment slug",
-                        "name": "slug",
+                        "description": "segment info",
+                        "name": "input",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/app.Segment"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "segment id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
                         }
                     }
                 }
             },
             "delete": {
-                "description": "delete segment entry by id",
+                "description": "delete id",
                 "consumes": [
                     "application/json"
                 ],
@@ -151,108 +251,13 @@ const docTemplate = `{
                 "tags": [
                     "segments"
                 ],
-                "summary": "delete segment",
+                "summary": "Delete segment",
+                "operationId": "delete-segment",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Segment ID",
-                        "name": "segment_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/user_segments": {
-            "get": {
-                "description": "fetch all user_segment data",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user_segments"
-                ],
-                "summary": "find segments",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "create segment entry",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user_segments"
-                ],
-                "summary": "create segment",
-                "parameters": [
-                    {
-                        "description": "User id",
-                        "name": "user_id",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "description": "Segment id",
-                        "name": "segment_id",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/user_segments/{id}": {
-            "get": {
-                "description": "find user_segment entry by id",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user_segments"
-                ],
-                "summary": "find user_segment",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "UserSegment ID",
-                        "name": "user_segment_id",
+                        "type": "string",
+                        "description": "segment id",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -261,87 +266,31 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "update user_segment entry by id",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user_segments"
-                ],
-                "summary": "update user user_segment",
-                "parameters": [
-                    {
-                        "description": "User id",
-                        "name": "user_segment_id",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
                             "type": "integer"
                         }
                     },
-                    {
-                        "description": "User id",
-                        "name": "user_id",
-                        "in": "body",
-                        "required": true,
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/handler.errorResponse"
                         }
                     },
-                    {
-                        "description": "Segment id",
-                        "name": "segment_id",
-                        "in": "body",
-                        "required": true,
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/handler.errorResponse"
                         }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/handler.errorResponse"
                         }
-                    }
-                }
-            },
-            "delete": {
-                "description": "delete segment entry by id",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user_segments"
-                ],
-                "summary": "delete segment",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "UserSegment ID",
-                        "name": "user_segment_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content",
+                    },
+                    "default": {
+                        "description": "",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/handler.errorResponse"
                         }
                     }
                 }
@@ -349,7 +298,7 @@ const docTemplate = `{
         },
         "/users": {
             "get": {
-                "description": "fetch all users data",
+                "description": "get all users",
                 "consumes": [
                     "application/json"
                 ],
@@ -359,18 +308,43 @@ const docTemplate = `{
                 "tags": [
                     "users"
                 ],
-                "summary": "find users",
+                "summary": "Get all users",
+                "operationId": "get-all-users",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
                         }
                     }
                 }
             },
             "post": {
-                "description": "create user entry",
+                "description": "create user",
                 "consumes": [
                     "application/json"
                 ],
@@ -380,12 +354,48 @@ const docTemplate = `{
                 "tags": [
                     "users"
                 ],
-                "summary": "create user",
-                "responses": {
-                    "201": {
-                        "description": "Created",
+                "summary": "Create user",
+                "operationId": "create-user",
+                "parameters": [
+                    {
+                        "description": "user info",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/app.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
                         }
                     }
                 }
@@ -393,7 +403,7 @@ const docTemplate = `{
         },
         "/users/{id}": {
             "get": {
-                "description": "find user entry by id",
+                "description": "get user by id",
                 "consumes": [
                     "application/json"
                 ],
@@ -403,12 +413,13 @@ const docTemplate = `{
                 "tags": [
                     "users"
                 ],
-                "summary": "find user",
+                "summary": "Get user by id",
+                "operationId": "get-user-by-id",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "user_id",
+                        "type": "string",
+                        "description": "user id",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -417,13 +428,37 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
                         }
                     }
                 }
             },
-            "delete": {
-                "description": "delete user entry by id",
+            "put": {
+                "description": "update user",
                 "consumes": [
                     "application/json"
                 ],
@@ -433,23 +468,208 @@ const docTemplate = `{
                 "tags": [
                     "users"
                 ],
-                "summary": "delete user",
+                "summary": "Update user",
+                "operationId": "update-user",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "user_id",
+                        "description": "user info",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/app.UpdateUserInput"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "No Content",
+                    "200": {
+                        "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
                         }
                     }
+                }
+            },
+            "delete": {
+                "description": "delete id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Delete user",
+                "operationId": "delete-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/segments": {
+            "post": {
+                "description": "add segments to user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Add segments to user",
+                "operationId": "add-segments-to-user",
+                "parameters": [
+                    {
+                        "description": "segments ids",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/app.AddUserSegmentInput"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "app.AddUserSegmentInput": {
+            "type": "object"
+        },
+        "app.Segment": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "slug": {
+                    "type": "string"
+                }
+            }
+        },
+        "app.UpdateUserInput": {
+            "type": "object"
+        },
+        "app.User": {
+            "type": "object"
+        },
+        "handler.errorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
                 }
             }
         }
@@ -462,8 +682,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8001",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "Rest api Golang Avito App API",
-	Description:      "API Server for Segments Application",
+	Title:            "Avito Dynamic Segment App API",
+	Description:      "API Server for Avito Dynamic Segment Application",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

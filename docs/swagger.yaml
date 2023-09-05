@@ -1,298 +1,448 @@
 basePath: /
+definitions:
+  app.AddUserSegmentInput:
+    type: object
+  app.Segment:
+    properties:
+      id:
+        type: integer
+      slug:
+        type: string
+    type: object
+  app.UpdateUserInput:
+    type: object
+  app.User:
+    type: object
+  handler.errorResponse:
+    properties:
+      message:
+        type: string
+    type: object
 host: localhost:8001
 info:
   contact: {}
-  description: API Server for Segments Application
-  title: Rest api Golang Avito App API
+  description: API Server for Avito Dynamic Segment Application
+  title: Avito Dynamic Segment App API
   version: "1.0"
 paths:
   /segments:
     get:
       consumes:
       - application/json
-      description: fetch all segments data
+      description: get all segments
+      operationId: get-all-segments
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: string
-      summary: find segments
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Get all segments
       tags:
       - segments
     post:
       consumes:
       - application/json
-      description: create segment entry
+      description: create segments
+      operationId: create-segment
       parameters:
-      - description: Segment slug
+      - description: segment info
         in: body
-        name: slug
+        name: input
         required: true
         schema:
-          type: string
+          $ref: '#/definitions/app.Segment'
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
-            type: string
-      summary: create segment
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Create segment
       tags:
       - segments
   /segments/{id}:
     delete:
       consumes:
       - application/json
-      description: delete segment entry by id
+      description: delete id
+      operationId: delete-segment
       parameters:
-      - description: Segment ID
+      - description: segment id
         in: path
-        name: segment_id
+        name: id
         required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: No Content
-          schema:
-            type: string
-      summary: delete segment
-      tags:
-      - segments
-    get:
-      consumes:
-      - application/json
-      description: find segment entry by id
-      parameters:
-      - description: Segment ID
-        in: path
-        name: segment_id
-        required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: string
-      summary: find segment
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Delete segment
+      tags:
+      - segments
+    get:
+      consumes:
+      - application/json
+      description: get segment by id
+      operationId: get-segment-by-id
+      parameters:
+      - description: segment id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Get segment by id
       tags:
       - segments
     put:
       consumes:
       - application/json
-      description: update segment entry by id
+      description: update segment
+      operationId: update-segment
       parameters:
-      - description: Segment ID
-        in: path
-        name: segment_id
-        required: true
-        type: integer
-      - description: Segment slug
+      - description: segment info
         in: body
-        name: slug
+        name: input
         required: true
         schema:
-          type: string
+          $ref: '#/definitions/app.Segment'
+      - description: segment id
+        in: path
+        name: id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: string
-      summary: update segment
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Update segment
       tags:
       - segments
-  /user_segments:
-    get:
-      consumes:
-      - application/json
-      description: fetch all user_segment data
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-      summary: find segments
-      tags:
-      - user_segments
-    post:
-      consumes:
-      - application/json
-      description: create segment entry
-      parameters:
-      - description: User id
-        in: body
-        name: user_id
-        required: true
-        schema:
-          type: integer
-      - description: Segment id
-        in: body
-        name: segment_id
-        required: true
-        schema:
-          type: integer
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            type: string
-      summary: create segment
-      tags:
-      - user_segments
-  /user_segments/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: delete segment entry by id
-      parameters:
-      - description: UserSegment ID
-        in: path
-        name: user_segment_id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: No Content
-          schema:
-            type: string
-      summary: delete segment
-      tags:
-      - user_segments
-    get:
-      consumes:
-      - application/json
-      description: find user_segment entry by id
-      parameters:
-      - description: UserSegment ID
-        in: path
-        name: user_segment_id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-      summary: find user_segment
-      tags:
-      - user_segments
-    put:
-      consumes:
-      - application/json
-      description: update user_segment entry by id
-      parameters:
-      - description: User id
-        in: body
-        name: user_segment_id
-        required: true
-        schema:
-          type: integer
-      - description: User id
-        in: body
-        name: user_id
-        required: true
-        schema:
-          type: integer
-      - description: Segment id
-        in: body
-        name: segment_id
-        required: true
-        schema:
-          type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-      summary: update user user_segment
-      tags:
-      - user_segments
   /users:
     get:
       consumes:
       - application/json
-      description: fetch all users data
+      description: get all users
+      operationId: get-all-users
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: string
-      summary: find users
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Get all users
       tags:
       - users
     post:
       consumes:
       - application/json
-      description: create user entry
+      description: create user
+      operationId: create-user
+      parameters:
+      - description: user info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/app.User'
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
-            type: string
-      summary: create user
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Create user
       tags:
       - users
   /users/{id}:
     delete:
       consumes:
       - application/json
-      description: delete user entry by id
+      description: delete id
+      operationId: delete-user
       parameters:
-      - description: User ID
+      - description: user id
         in: path
-        name: user_id
+        name: id
         required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: No Content
-          schema:
-            type: string
-      summary: delete user
-      tags:
-      - users
-    get:
-      consumes:
-      - application/json
-      description: find user entry by id
-      parameters:
-      - description: User ID
-        in: path
-        name: user_id
-        required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: string
-      summary: find user
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Delete user
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: get user by id
+      operationId: get-user-by-id
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Get user by id
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: update user
+      operationId: update-user
+      parameters:
+      - description: user info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/app.UpdateUserInput'
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Update user
+      tags:
+      - users
+  /users/{id}/segments:
+    post:
+      consumes:
+      - application/json
+      description: add segments to user
+      operationId: add-segments-to-user
+      parameters:
+      - description: segments ids
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/app.AddUserSegmentInput'
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Add segments to user
       tags:
       - users
 swagger: "2.0"

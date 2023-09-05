@@ -1,6 +1,6 @@
 setup:
 	go install github.com/swaggo/swag/cmd/swag@latest
-	swag init
+	swag init -g cmd/main.go
 
 build:
 	docker compose up --build
@@ -18,9 +18,9 @@ rebuild:
 	docker compose up --build
 
 clean:
-	docker stop go-rest-api-template
-	docker stop dockerPostgres
-	docker rm go-rest-api-template
-	docker rm dockerPostgres
-	docker image rm go-rest-api-template
-	rm -rf .dbdata
+	docker stop back
+	docker stop db
+	docker rm back
+	docker rm db
+	docker image rm avito-dynamic-segment-back-back
+	rm -rf postgres_data

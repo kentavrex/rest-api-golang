@@ -5,7 +5,6 @@ COPY go.sum ./
 RUN go mod download
 RUN go install github.com/swaggo/swag/cmd/swag@latest
 COPY . /app
-RUN swag init
+RUN swag init --dir cmd
 EXPOSE 8001
-CMD go run main.go
-
+CMD go run cmd/main.go

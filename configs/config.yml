@@ -1,0 +1,7 @@
+port: "8001"
+
+db:
+  username: "test_user"
+  host: "db"
+  port: "5435"
+  dbname: "test_db"
