@@ -13,7 +13,7 @@ func NewSegmentService(repo repository.Segment) *SegmentService {
 	return &SegmentService{repo: repo}
 }
 
-func (s *SegmentService) Create(segment app.Segment) (int, error) {
+func (s *SegmentService) Create(segment app.CreateSegmentInput) (int, error) {
 	return s.repo.Create(segment)
 }
 

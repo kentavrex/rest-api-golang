@@ -82,7 +82,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/app.Segment"
+                            "$ref": "#/definitions/app.CreateSegmentInput"
                         }
                     }
                 ],
@@ -196,7 +196,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/app.Segment"
+                            "$ref": "#/definitions/app.UpdateSegmentInput"
                         }
                     },
                     {
@@ -769,6 +769,17 @@ const docTemplate = `{
                 }
             }
         },
+        "app.CreateSegmentInput": {
+            "type": "object",
+            "required": [
+                "slug"
+            ],
+            "properties": {
+                "slug": {
+                    "type": "string"
+                }
+            }
+        },
         "app.CreateUserInput": {
             "type": "object",
             "properties": {
@@ -783,12 +794,12 @@ const docTemplate = `{
                 }
             }
         },
-        "app.Segment": {
+        "app.UpdateSegmentInput": {
             "type": "object",
+            "required": [
+                "slug"
+            ],
             "properties": {
-                "id": {
-                    "type": "integer"
-                },
                 "slug": {
                     "type": "string"
                 }

@@ -9,6 +9,13 @@ definitions:
     required:
     - segments
     type: object
+  app.CreateSegmentInput:
+    properties:
+      slug:
+        type: string
+    required:
+    - slug
+    type: object
   app.CreateUserInput:
     properties:
       name:
@@ -18,12 +25,12 @@ definitions:
           type: integer
         type: array
     type: object
-  app.Segment:
+  app.UpdateSegmentInput:
     properties:
-      id:
-        type: integer
       slug:
         type: string
+    required:
+    - slug
     type: object
   app.UpdateUserInput:
     properties:
@@ -89,7 +96,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/app.Segment'
+          $ref: '#/definitions/app.CreateSegmentInput'
       produces:
       - application/json
       responses:
@@ -202,7 +209,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/app.Segment'
+          $ref: '#/definitions/app.UpdateSegmentInput'
       - description: segment id
         in: path
         name: id

@@ -13,14 +13,14 @@ import (
 // @ID create-segment
 // @Accept  json
 // @Produce  json
-// @Param input body app.Segment true "segment info"
+// @Param input body app.CreateSegmentInput true "segment info"
 // @Success 200 {integer} integer 1
 // @Failure 400,404 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Failure default {object} errorResponse
 // @Router /segments [post]
 func (h *Handler) createSegment(c *gin.Context) {
-	var input app.Segment
+	var input app.CreateSegmentInput
 
 	if err := c.Bind(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
@@ -97,7 +97,7 @@ func (h *Handler) getSegmentById(c *gin.Context) {
 // @ID update-segment
 // @Accept  json
 // @Produce  json
-// @Param input body app.Segment true "segment info"
+// @Param input body app.UpdateSegmentInput true "segment info"
 // @Param id path string true "segment id"
 // @Success 200 {integer} integer 1
 // @Failure 400,404 {object} errorResponse

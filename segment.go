@@ -3,12 +3,16 @@ package app
 import "errors"
 
 type Segment struct {
-	Id   int
-	Slug string
+	Id   int    `json:"id" db:"id"`
+	Slug string `json:"slug" db:"slug" binding:"required"`
+}
+
+type CreateSegmentInput struct {
+	Slug string `json:"slug" db:"slug" binding:"required"`
 }
 
 type UpdateSegmentInput struct {
-	Slug *string `json:"slug" db:"slug"`
+	Slug *string `json:"slug" db:"slug" binding:"required"`
 }
 
 func (i UpdateSegmentInput) Validate() error {

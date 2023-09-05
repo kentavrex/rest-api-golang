@@ -14,7 +14,7 @@ func NewSegmentPostgres(db *sqlx.DB) *SegmentPostgres {
 	return &SegmentPostgres{db: db}
 }
 
-func (r *SegmentPostgres) Create(segment app.Segment) (int, error) {
+func (r *SegmentPostgres) Create(segment app.CreateSegmentInput) (int, error) {
 	var id int
 
 	query := fmt.Sprintf("INSERT INTO %s (slug) values($1) RETURNING id", segmentsTable)

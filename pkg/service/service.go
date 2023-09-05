@@ -18,7 +18,7 @@ type User interface {
 }
 
 type Segment interface {
-	Create(segment app.Segment) (int, error)
+	Create(segment app.CreateSegmentInput) (int, error)
 	GetAll() ([]app.Segment, error)
 	GetById(segmentId int) (app.Segment, error)
 	Delete(segmentId int) error
