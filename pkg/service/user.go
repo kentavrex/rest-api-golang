@@ -1,8 +1,8 @@
 package service
 
 import (
-	app "avito-dynamic-segment-back"
-	"avito-dynamic-segment-back/pkg/repository"
+	app "rest-api-golang"
+	"rest-api-golang/pkg/repository"
 	//"errors"
 	//"github.com/lib/pq"
 	//"slices"

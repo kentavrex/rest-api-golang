@@ -1,8 +1,8 @@
 package repository
 
 import (
-	app "avito-dynamic-segment-back"
 	"github.com/jmoiron/sqlx"
+	app "rest-api-golang"
 )
 
 type User interface {

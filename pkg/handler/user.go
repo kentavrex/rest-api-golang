@@ -1,9 +1,9 @@
 package handler
 
 import (
-	app "avito-dynamic-segment-back"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	app "rest-api-golang"
 	"strconv"
 )
 

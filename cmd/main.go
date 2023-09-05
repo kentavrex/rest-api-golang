@@ -1,21 +1,21 @@
 package main
 
 import (
-	app "avito-dynamic-segment-back"
-	"avito-dynamic-segment-back/pkg/handler"
-	"avito-dynamic-segment-back/pkg/repository"
-	"avito-dynamic-segment-back/pkg/service"
 	"context"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"os"
 	"os/signal"
+	app "rest-api-golang"
+	"rest-api-golang/pkg/handler"
+	"rest-api-golang/pkg/repository"
+	"rest-api-golang/pkg/service"
 	"syscall"
 )
 
-// @title Avito Dynamic Segment App API
+// @title Dynamic Segment App API
 // @version 1.0
-// @description API Server for Avito Dynamic Segment Application
+// @description API Server for Dynamic Segment Application
 
 // @host localhost:8001
 // @BasePath /

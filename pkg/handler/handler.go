@@ -1,11 +1,11 @@
 package handler
 
 import (
-	_ "avito-dynamic-segment-back/docs"
-	"avito-dynamic-segment-back/pkg/service"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	_ "rest-api-golang/docs"
+	"rest-api-golang/pkg/service"
 )
 
 type Handler struct {

@@ -1,10 +1,10 @@
 package repository
 
 import (
-	app "avito-dynamic-segment-back"
 	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
+	app "rest-api-golang"
 )
 
 type UserPostgres struct {
