@@ -363,7 +363,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/app.User"
+                            "$ref": "#/definitions/app.CreateUserInput"
                         }
                     }
                 ],
@@ -756,7 +756,32 @@ const docTemplate = `{
     },
     "definitions": {
         "app.AddUserSegmentInput": {
-            "type": "object"
+            "type": "object",
+            "required": [
+                "segments"
+            ],
+            "properties": {
+                "segments": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "app.CreateUserInput": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "segments": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
         },
         "app.Segment": {
             "type": "object",
@@ -770,10 +795,18 @@ const docTemplate = `{
             }
         },
         "app.UpdateUserInput": {
-            "type": "object"
-        },
-        "app.User": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "segments": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
         },
         "handler.errorResponse": {
             "type": "object",

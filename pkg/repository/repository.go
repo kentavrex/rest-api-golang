@@ -7,8 +7,8 @@ import (
 
 type User interface {
 	Create(user app.CreateUserInput) (int, error)
-	GetAll() ([]app.User, error)
-	GetById(userId int) (app.User, error)
+	GetAll() ([]app.UserGet, error)
+	GetById(userId int) (app.UserGet, error)
 	Delete(userId int) error
 	Update(userId int, input app.UpdateUserInput) error
 

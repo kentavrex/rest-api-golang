@@ -6,19 +6,25 @@ import (
 )
 
 type User struct {
+	Id       int    `json:"id" db:"id"`
+	Name     string `json:"name" db:"name" binding:"required"`
+	Segments []int  `json:"segments" db:"segments"`
+}
+
+type UserGet struct {
 	Id       int           `json:"id" db:"id"`
 	Name     string        `json:"name" db:"name" binding:"required"`
 	Segments pq.Int64Array `json:"segments" db:"segments"`
 }
 
 type CreateUserInput struct {
-	Name     *string        `json:"name" db:"name"`
-	Segments *pq.Int64Array `json:"segments" db:"segments"`
+	Name     *string `json:"name" db:"name"`
+	Segments *[]int  `json:"segments" db:"segments"`
 }
 
 type UpdateUserInput struct {
-	Name     *string        `json:"name" db:"name"`
-	Segments *pq.Int64Array `json:"segments" db:"segments"`
+	Name     *string `json:"name" db:"name"`
+	Segments *[]int  `json:"segments" db:"segments"`
 }
 
 func (i UpdateUserInput) Validate() error {
@@ -30,7 +36,7 @@ func (i UpdateUserInput) Validate() error {
 }
 
 type AddUserSegmentInput struct {
-	Segments *pq.Int64Array `json:"segments" db:"segments" binding:"required"`
+	Segments *[]int `json:"segments" db:"segments" binding:"required"`
 }
 
 func (i AddUserSegmentInput) Validate() error {

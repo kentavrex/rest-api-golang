@@ -1,6 +1,22 @@
 basePath: /
 definitions:
   app.AddUserSegmentInput:
+    properties:
+      segments:
+        items:
+          type: integer
+        type: array
+    required:
+    - segments
+    type: object
+  app.CreateUserInput:
+    properties:
+      name:
+        type: string
+      segments:
+        items:
+          type: integer
+        type: array
     type: object
   app.Segment:
     properties:
@@ -10,8 +26,13 @@ definitions:
         type: string
     type: object
   app.UpdateUserInput:
-    type: object
-  app.User:
+    properties:
+      name:
+        type: string
+      segments:
+        items:
+          type: integer
+        type: array
     type: object
   handler.errorResponse:
     properties:
@@ -256,7 +277,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/app.User'
+          $ref: '#/definitions/app.CreateUserInput'
       produces:
       - application/json
       responses:

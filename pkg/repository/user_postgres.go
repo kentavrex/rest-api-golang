@@ -20,7 +20,7 @@ func (r *UserPostgres) Create(user app.CreateUserInput) (int, error) {
 
 	query := fmt.Sprintf("INSERT INTO %s (name, segments) VALUES ($1, $2) RETURNING id", usersTable)
 
-	row := r.db.QueryRow(query, user.Name, user.Segments)
+	row := r.db.QueryRow(query, user.Name, pq.Array(*user.Segments))
 	if err := row.Scan(&id); err != nil {
 		return 0, err
 	}
@@ -28,8 +28,8 @@ func (r *UserPostgres) Create(user app.CreateUserInput) (int, error) {
 	return id, nil
 }
 
-func (r *UserPostgres) GetAll() ([]app.User, error) {
-	var users []app.User
+func (r *UserPostgres) GetAll() ([]app.UserGet, error) {
+	var users []app.UserGet
 
 	query := fmt.Sprintf("SELECT * FROM %s", usersTable)
 
@@ -38,8 +38,8 @@ func (r *UserPostgres) GetAll() ([]app.User, error) {
 	return users, err
 }
 
-func (r *UserPostgres) GetById(userId int) (app.User, error) {
-	var user app.User
+func (r *UserPostgres) GetById(userId int) (app.UserGet, error) {
+	var user app.UserGet
 
 	query := fmt.Sprintf("SELECT * FROM %s WHERE id = $1", usersTable)
 
@@ -59,7 +59,7 @@ func (r *UserPostgres) Delete(userId int) error {
 func (r *UserPostgres) Update(userId int, input app.UpdateUserInput) error {
 	query := fmt.Sprintf("UPDATE %s SET name = $1, segments = $2 WHERE id = $3", usersTable)
 
-	_, err := r.db.Exec(query, input.Name, input.Segments, userId)
+	_, err := r.db.Exec(query, input.Name, pq.Array(*input.Segments), userId)
 
 	return err
 
@@ -68,7 +68,7 @@ func (r *UserPostgres) Update(userId int, input app.UpdateUserInput) error {
 func (r *UserPostgres) AddSegments(userId int, input app.AddUserSegmentInput) error {
 	query := fmt.Sprintf("UPDATE %s SET segments = ARRAY_CAT(segments, $1) WHERE id = $2", usersTable)
 
-	_, err := r.db.Exec(query, input.Segments, userId)
+	_, err := r.db.Exec(query, pq.Array(*input.Segments), userId)
 
 	return err
 
@@ -80,8 +80,8 @@ func (r *UserPostgres) GetSegments(userId int) ([]app.Segment, error) {
 	err := r.db.Get(&userSegmentsIds, query, userId)
 
 	var userSegments []app.Segment
-	query = fmt.Sprintf("SELECT * FROM %s WHERE id in $1", segmentsTable)
-	err = r.db.Get(&userSegments, query, userSegmentsIds)
+	query = fmt.Sprintf("SELECT * FROM %s WHERE id = ANY($1)", segmentsTable)
+	err = r.db.Select(&userSegments, query, userSegmentsIds)
 
 	return userSegments, err
 }

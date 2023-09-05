@@ -42,11 +42,11 @@ func (s *UserService) Create(user app.CreateUserInput) (int, error) {
 	return s.repo.Create(user)
 }
 
-func (s *UserService) GetAll() ([]app.User, error) {
+func (s *UserService) GetAll() ([]app.UserGet, error) {
 	return s.repo.GetAll()
 }
 
-func (s *UserService) GetById(userId int) (app.User, error) {
+func (s *UserService) GetById(userId int) (app.UserGet, error) {
 	return s.repo.GetById(userId)
 }
 

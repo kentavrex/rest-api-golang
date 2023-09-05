@@ -13,7 +13,7 @@ import (
 // @ID create-user
 // @Accept  json
 // @Produce  json
-// @Param input body app.User true "user info"
+// @Param input body app.CreateUserInput true "user info"
 // @Success 200 {integer} integer 1
 // @Failure 400,404 {object} errorResponse
 // @Failure 500 {object} errorResponse
@@ -38,7 +38,7 @@ func (h *Handler) createUser(c *gin.Context) {
 }
 
 type getAllUsersResponse struct {
-	Data []app.User `json:"data"`
+	Data []app.UserGet `json:"data"`
 }
 
 // @Summary Get all users
