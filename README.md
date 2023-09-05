@@ -15,7 +15,7 @@ Use Swagger to feel good :)
 
 `make build && make run`
 
-- Base URL: `http://localhost:8001/api/v1`
+- Base URL: `http://localhost:8001/`
 - Swagger URL: `http://localhost:8001/swagger/index.html#/`
 
 Endpoints:
