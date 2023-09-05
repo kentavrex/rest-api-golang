@@ -73,3 +73,7 @@ func (s *UserService) AddSegments(userId int, input app.AddUserSegmentInput) err
 func (s *UserService) GetSegments(userId int) ([]app.Segment, error) {
 	return s.repo.GetSegments(userId)
 }
+
+func (s *UserService) DeleteSegments(userId int) error {
+	return s.repo.DeleteSegments(userId)
+}

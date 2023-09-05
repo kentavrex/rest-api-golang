@@ -21,8 +21,8 @@ definitions:
 host: localhost:8001
 info:
   contact: {}
-  description: API Server for Avito Dynamic Segment Application
-  title: Avito Dynamic Segment App API
+  description: API Server for Dynamic Segment Application
+  title: Dynamic Segment App API
   version: "1.0"
 paths:
   /segments:
@@ -402,6 +402,80 @@ paths:
       tags:
       - users
   /users/{id}/segments:
+    delete:
+      consumes:
+      - application/json
+      description: delete all user segments
+      operationId: delete-user-segments
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Delete all user segments
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: get user segments
+      operationId: get-user-segments
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Get user segments
+      tags:
+      - users
     post:
       consumes:
       - application/json
