@@ -87,7 +87,7 @@ func (r *UserPostgres) GetSegments(userId int) ([]app.Segment, error) {
 }
 
 func (r *UserPostgres) DeleteSegments(userId int) error {
-	query := fmt.Sprintf("UPDATE %s SET segments = [] WHERE id = $1", usersTable)
+	query := fmt.Sprintf("UPDATE %s SET segments = ARRAY[]::integer[] WHERE id = $1", usersTable)
 
 	_, err := r.db.Exec(query, userId)
 
