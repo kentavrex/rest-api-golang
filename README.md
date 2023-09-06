@@ -2,7 +2,7 @@
 I've recorded the video-presentation on YouTube https://youtu.be/XtQMn-BsoVw !
 ![youtube_profile_screenshot](youtube_profile_screenshot.png)
 
-Application made with Golang using Gin framework. Includes Docker container integrated with PostgreSQL database.
+Application made with Golang using Gin framework. Includes Docker container, integrated with PostgreSQL database.
 It automatically runs all migrations to db, so you don't need to worry about it.
 
 You can use adminer to soft db connect.
