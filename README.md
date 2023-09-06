@@ -1,4 +1,7 @@
 # REST API service for Avito user segments
+I've recorded the video-presentation on YouTube https://youtu.be/XtQMn-BsoVw !
+![youtube_profile_screenshot](youtube_profile_screenshot.png)
+
 Application made with Golang using Gin framework. Includes Docker container integrated with PostgreSQL database.
 It automatically runs all migrations to db, so you don't need to worry about it.
 
@@ -34,7 +37,6 @@ Endpoints:
 - POST /users/id/segments
 - GET /users/id/segments
 - DELETE /users/id/segments
-- DELETE /users/id/segments/id
 
 ## Swagger
 
