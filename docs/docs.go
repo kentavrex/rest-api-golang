@@ -753,7 +753,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/{user_id}/segments/{segment_id}": {
+        "/users/{id}/segments/{segment_id}": {
             "delete": {
                 "description": "delete all user segment",
                 "consumes": [
