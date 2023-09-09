@@ -41,4 +41,4 @@ Endpoints:
 
 ## Swagger
 
-![swagger_screenshot](swagger_screenshot.png)
+![swagger_routes_screenshot](swagger_routes_screenshot.png)
