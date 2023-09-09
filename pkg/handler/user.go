@@ -257,7 +257,7 @@ func (h *Handler) deleteUserSegments(c *gin.Context) {
 // @Failure 400,404 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Failure default {object} errorResponse
-// @Router /users/{user_id}/segments/{segment_id} [delete]
+// @Router /users/{id}/segments/{segment_id} [delete]
 func (h *Handler) deleteUserSegment(c *gin.Context) {
 	userId, err := strconv.Atoi(c.Param("id"))
 	segmentId, err := strconv.Atoi(c.Param("segment_id"))
