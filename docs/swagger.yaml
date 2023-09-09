@@ -547,4 +547,47 @@ paths:
       summary: Add segments to user
       tags:
       - users
+  /users/{user_id}/segments/{segment_id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete all user segment
+      operationId: delete-user-segment
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: segment id
+        in: path
+        name: segment_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Delete all user segment
+      tags:
+      - users
 swagger: "2.0"

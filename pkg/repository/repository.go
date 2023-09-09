@@ -15,6 +15,7 @@ type User interface {
 	AddSegments(userId int, input app.AddUserSegmentInput) error
 	GetSegments(userId int) ([]app.Segment, error)
 	DeleteSegments(userId int) error
+	DeleteSegment(userId int, segmentId int) error
 }
 
 type Segment interface {

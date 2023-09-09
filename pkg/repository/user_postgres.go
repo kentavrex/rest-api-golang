@@ -93,3 +93,11 @@ func (r *UserPostgres) DeleteSegments(userId int) error {
 
 	return err
 }
+
+func (r *UserPostgres) DeleteSegment(userId int, segmentId int) error {
+	query := fmt.Sprintf("UPDATE %s SET segments = ARRAY_REMOVE(segments, $1) WHERE id = $2", usersTable)
+
+	_, err := r.db.Exec(query, segmentId, userId)
+
+	return err
+}

@@ -37,6 +37,7 @@ Endpoints:
 - POST /users/id/segments
 - GET /users/id/segments
 - DELETE /users/id/segments
+- DELETE /users/id/segment/{segment_id}
 
 ## Swagger
 

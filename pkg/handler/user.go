@@ -244,3 +244,33 @@ func (h *Handler) deleteUserSegments(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, statusResponse{"ok"})
 }
+
+// @Summary Delete all user segment
+// @Tags users
+// @Description delete all user segment
+// @ID delete-user-segment
+// @Accept  json
+// @Produce  json
+// @Param id path string true "user id"
+// @Param segment_id path string true "segment id"
+// @Success 200 {integer} integer 1
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /users/{user_id}/segments/{segment_id} [delete]
+func (h *Handler) deleteUserSegment(c *gin.Context) {
+	userId, err := strconv.Atoi(c.Param("id"))
+	segmentId, err := strconv.Atoi(c.Param("segment_id"))
+
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+
+	err = h.services.User.DeleteSegment(userId, segmentId)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, statusResponse{"ok"})
+}
