@@ -3,7 +3,6 @@ package repository
 import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
-	"github.com/lib/pq"
 	app "rest-api-golang"
 )
 
@@ -16,16 +15,29 @@ func NewUserPostgres(db *sqlx.DB) *UserPostgres {
 }
 
 func (r *UserPostgres) Create(user app.CreateUserInput) (int, error) {
-	var id int
-
-	query := fmt.Sprintf("INSERT INTO %s (name, segments) VALUES ($1, $2) RETURNING id", usersTable)
-
-	row := r.db.QueryRow(query, user.Name, pq.Array(*user.Segments))
-	if err := row.Scan(&id); err != nil {
+	tx, err := r.db.Begin()
+	if err != nil {
 		return 0, err
 	}
 
-	return id, nil
+	var userId int
+	createUserQuery := fmt.Sprintf("INSERT INTO %s (name) VALUES ($1) RETURNING id;", usersTable)
+	row := tx.QueryRow(createUserQuery, user.Name)
+	if err := row.Scan(&userId); err != nil {
+		tx.Rollback()
+		return 0, err
+	}
+
+	for _, segmentId := range *user.Segments {
+		createUsersSegmentsQuery := fmt.Sprintf("INSERT INTO %s (user_id, segment_id) VALUES ($1, $2);", usersSegmentsTable)
+		_, err := tx.Exec(createUsersSegmentsQuery, userId, segmentId)
+		if err != nil {
+			tx.Rollback()
+			return 0, err
+		}
+	}
+
+	return userId, tx.Commit()
 }
 
 func (r *UserPostgres) GetAll() ([]app.UserGet, error) {
@@ -35,15 +47,37 @@ func (r *UserPostgres) GetAll() ([]app.UserGet, error) {
 
 	err := r.db.Select(&users, query)
 
+	for idx, user_x := range users {
+		var userSegments []app.UsersSegments
+		getUserSegmentsQuery := fmt.Sprintf("SELECT * FROM %s WHERE user_id = $1", usersSegmentsTable)
+		err = r.db.Select(&userSegments, getUserSegmentsQuery, user_x.Id)
+
+		var segmentsIds []int
+		for _, userSegment := range userSegments {
+			segmentsIds = append(segmentsIds, userSegment.SegmentId)
+		}
+
+		users[idx].Segments = segmentsIds
+	}
+
 	return users, err
 }
 
 func (r *UserPostgres) GetById(userId int) (app.UserGet, error) {
 	var user app.UserGet
+	getUserQuery := fmt.Sprintf("SELECT * FROM %s WHERE id = $1", usersTable)
+	err := r.db.Get(&user, getUserQuery, userId)
 
-	query := fmt.Sprintf("SELECT * FROM %s WHERE id = $1", usersTable)
+	var userSegments []app.UsersSegments
+	getUserSegmentsQuery := fmt.Sprintf("SELECT * FROM %s WHERE user_id = $1", usersSegmentsTable)
+	err = r.db.Select(&userSegments, getUserSegmentsQuery, userId)
 
-	err := r.db.Get(&user, query, userId)
+	var segmentsIds []int
+	for _, userSegment := range userSegments {
+		segmentsIds = append(segmentsIds, userSegment.SegmentId)
+	}
+
+	user.Segments = segmentsIds
 
 	return user, err
 }
@@ -57,47 +91,83 @@ func (r *UserPostgres) Delete(userId int) error {
 }
 
 func (r *UserPostgres) Update(userId int, input app.UpdateUserInput) error {
-	query := fmt.Sprintf("UPDATE %s SET name = $1, segments = $2 WHERE id = $3", usersTable)
+	tx, err := r.db.Begin()
+	if err != nil {
+		return err
+	}
 
-	_, err := r.db.Exec(query, input.Name, pq.Array(*input.Segments), userId)
+	updateUserQuery := fmt.Sprintf("UPDATE %s SET name = $1 WHERE id = $2", usersTable)
+	_, err = tx.Exec(updateUserQuery, input.Name, userId)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
 
-	return err
+	removeOldSegmentsQuery := fmt.Sprintf("DELETE FROM %s WHERE user_id = $1", usersSegmentsTable)
+	_, err = tx.Exec(removeOldSegmentsQuery, userId)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
 
+	for _, segmentId := range *input.Segments {
+		createUsersSegmentsQuery := fmt.Sprintf("INSERT INTO %s (user_id, segment_id) VALUES ($1, $2);", usersSegmentsTable)
+		_, err = tx.Exec(createUsersSegmentsQuery, userId, segmentId)
+		if err != nil {
+			tx.Rollback()
+			return err
+		}
+	}
+
+	return tx.Commit()
 }
 
 func (r *UserPostgres) AddSegments(userId int, input app.AddUserSegmentInput) error {
-	query := fmt.Sprintf("UPDATE %s SET segments = ARRAY_CAT(segments, $1) WHERE id = $2", usersTable)
+	tx, err := r.db.Begin()
+	if err != nil {
+		return err
+	}
 
-	_, err := r.db.Exec(query, pq.Array(*input.Segments), userId)
+	for _, segmentId := range *input.Segments {
+		query := fmt.Sprintf("INSERT INTO %s (user_id, segment_id) VALUES ($1, $2);", usersSegmentsTable)
+		_, err = tx.Exec(query, userId, segmentId)
+		if err != nil {
+			tx.Rollback()
+			return err
+		}
+	}
 
-	return err
-
+	return tx.Commit()
 }
 
 func (r *UserPostgres) GetSegments(userId int) ([]app.Segment, error) {
-	var userSegmentsIds pq.Int64Array
-	query := fmt.Sprintf("SELECT segments FROM %s WHERE id = $1", usersTable)
-	err := r.db.Get(&userSegmentsIds, query, userId)
-
 	var userSegments []app.Segment
-	query = fmt.Sprintf("SELECT * FROM %s WHERE id = ANY($1)", segmentsTable)
-	err = r.db.Select(&userSegments, query, userSegmentsIds)
+	query := fmt.Sprintf("SELECT * FROM %s WHERE id IN (SELECT segment_id FROM %s WHERE user_id = $1)", segmentsTable, usersSegmentsTable)
+	err := r.db.Select(&userSegments, query, userId)
 
 	return userSegments, err
 }
 
 func (r *UserPostgres) DeleteSegments(userId int) error {
-	query := fmt.Sprintf("UPDATE %s SET segments = ARRAY[]::integer[] WHERE id = $1", usersTable)
+	tx, err := r.db.Begin()
+	if err != nil {
+		return err
+	}
 
-	_, err := r.db.Exec(query, userId)
+	removeOldSegmentsQuery := fmt.Sprintf("DELETE FROM %s WHERE user_id = $1", usersSegmentsTable)
+	_, err = tx.Exec(removeOldSegmentsQuery, userId)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
 
-	return err
+	return tx.Commit()
 }
 
 func (r *UserPostgres) DeleteSegment(userId int, segmentId int) error {
-	query := fmt.Sprintf("UPDATE %s SET segments = ARRAY_REMOVE(segments, $1) WHERE id = $2", usersTable)
+	query := fmt.Sprintf("DELETE FROM %s WHERE user_id = $1 AND segment_id = $2 ", usersSegmentsTable)
 
-	_, err := r.db.Exec(query, segmentId, userId)
+	_, err := r.db.Exec(query, userId, segmentId)
 
 	return err
 }

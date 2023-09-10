@@ -2,7 +2,6 @@ package app
 
 import (
 	"errors"
-	"github.com/lib/pq"
 )
 
 type User struct {
@@ -12,9 +11,9 @@ type User struct {
 }
 
 type UserGet struct {
-	Id       int           `json:"id" db:"id"`
-	Name     string        `json:"name" db:"name" binding:"required"`
-	Segments pq.Int64Array `json:"segments" db:"segments"`
+	Id       int    `json:"id" db:"id"`
+	Name     string `json:"name" db:"name" binding:"required"`
+	Segments []int  `json:"segments" db:"segments"`
 }
 
 type CreateUserInput struct {
@@ -45,4 +44,9 @@ func (i AddUserSegmentInput) Validate() error {
 	}
 
 	return nil
+}
+
+type UsersSegments struct {
+	UserId    int `json:"user_id" db:"user_id"`
+	SegmentId int `json:"segment_id" db:"segment_id"`
 }
