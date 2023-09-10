@@ -1,4 +1,7 @@
 # REST API service for Avito user segments
+I've recorded the video-presentation on YouTube https://www.youtube.com/watch?v=N6ELlPtB86g!
+![youtube_screenshot](youtube_screenshot.png)
+
 Application made with Golang using Gin framework. Includes Docker container, integrated with PostgreSQL database.
 It automatically runs all migrations to db, so you don't need to worry about it.
 
