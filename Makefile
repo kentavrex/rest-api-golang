@@ -3,7 +3,7 @@ setup:
 	swag init -g cmd/main.go
 
 build:
-	docker compose up --build
+	docker compose build
 
 run:
 	docker compose up
